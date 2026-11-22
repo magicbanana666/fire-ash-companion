@@ -731,7 +731,8 @@ function richSection(text, q) {
     }
     // trainer block: [ICONIC BATTLE] / title / Mon LV n ...
     let iconic = false, j = i;
-    if (/^ICONIC BATTLE$/i.test(line)) { iconic = true; j = i + 1; }
+    const im = line.match(/^(MINOR\s+)?ICONIC(\s+BATTLE)?$/i);
+    if (im) { iconic = im[1] ? 'MINOR ICONIC' : 'ICONIC'; j = i + 1; }
     const title = (lines[j] || '').trim();
     if (title && !LV_RE.test(title) && LV_RE.test((lines[j + 1] || '').trim())) {
       let k = j + 1; const team = [];
@@ -740,7 +741,7 @@ function richSection(text, q) {
         team.push(miniMon(m[1], `<small>Lv ${m[2]}${m[3] ? ' ×' + m[3] : ''}${m[4] ? ' ' + esc(m[4]) : ''}</small>`));
         k++;
       }
-      trainers.push(`<div class="gtr${iconic ? ' iconic' : ''}"><div class="t">${iconic ? '<em>ICONIC</em>' : ''}${hl(title, q)}</div><div class="team">${team.join('')}</div></div>`);
+      trainers.push(`<div class="gtr${iconic === 'ICONIC' ? ' iconic' : ''}"><div class="t">${iconic ? `<em${iconic === 'ICONIC' ? '' : ' style="background:var(--accent2)"'}>${iconic}</em>` : ''}${hl(title, q)}</div><div class="team">${team.join('')}</div></div>`);
       i = k; continue;
     }
     flushTrainers();

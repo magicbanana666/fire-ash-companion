@@ -14,3 +14,6 @@ DualScreen/
 tools/DualScreen/
 
 __pycache__/
+
+# local screenshots / social media drafts
+reddit/
