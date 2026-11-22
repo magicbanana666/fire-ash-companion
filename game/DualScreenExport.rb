@@ -380,6 +380,7 @@ module DualScreenExport
     return if !$game_map || !$game_player || !$Trainer
     @frame += 1
     return if @frame % CHECK_FRAMES != 0
+    return if $game_player.moving? || ($game_player.jumping? rescue false) # no disk I/O while walking (stutter fix)
     export_static if !@static_done
     sig = signature
     return if sig == @last_sig

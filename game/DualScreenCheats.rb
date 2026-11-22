@@ -288,7 +288,7 @@ module DualScreenCheats
     @fps_t ||= now
     @fps_fc ||= Graphics.frame_count
     @fps_frames += 1
-    if now - @fps_t >= 2.0
+    if now - @fps_t >= 2.0 && !($game_player && $game_player.moving?)
       dt = now - @fps_t
       drawn = (Graphics.frame_count - @fps_fc) / dt
       DualScreenExport.write_file(PERF_FILE, DualScreenExport.json({
@@ -297,6 +297,7 @@ module DualScreenCheats
       @fps_t = now; @fps_frames = 0; @fps_fc = Graphics.frame_count
     end
     return if @frame % 10 != 0
+    return if $game_player && $game_player.moving?
     export_editor if !@editor_done && $Trainer
     process_commands if $Trainer
   rescue Exception => e
