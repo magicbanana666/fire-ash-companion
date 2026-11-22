@@ -32,11 +32,9 @@ $classes = Get-ChildItem "$out\classes" -Recurse -Filter *.class | ForEach-Objec
 & "$bt\d8.bat" --min-api 30 --lib $jar --output "$out\dex" $classes
 if ($LASTEXITCODE) { throw 'd8 failed' }
 
-# add classes.dex to the APK
-Add-Type -AssemblyName System.IO.Compression, System.IO.Compression.FileSystem
-$zip = [System.IO.Compression.ZipFile]::Open("$out\base.apk", 'Update')
-[System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($zip, "$out\dex\classes.dex", 'classes.dex') | Out-Null
-$zip.Dispose()
+# add classes.dex to the APK (Python's zipfile writes entries Android's asset manager reads reliably)
+py -I -c "import zipfile,sys; z=zipfile.ZipFile(sys.argv[1],'a',zipfile.ZIP_DEFLATED); z.write(sys.argv[2],'classes.dex'); z.close()" "$out\base.apk" "$out\dex\classes.dex"
+if ($LASTEXITCODE) { throw 'adding classes.dex failed (needs Python 3 as "py")' }
 
 & "$bt\zipalign.exe" -f -p 4 "$out\base.apk" "$out\aligned.apk"
 $ks = Join-Path $here 'companion.keystore'
