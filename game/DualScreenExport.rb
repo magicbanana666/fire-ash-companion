@@ -478,6 +478,32 @@ end
 
 Events.onMapChange += proc { |_sender, _e| DualScreenExport.force }
 
+# Heartbeat: DualScreen/alive.txt is refreshed about once a second from every
+# screen (title, overworld, menus, battles). The companion app's watcher uses it
+# to know that Fire Ash (and not another JoiPlay game) is running.
+module DualScreenExport
+  @alive_at = 0.0
+  def self.heartbeat
+    now = Time.now.to_f
+    return if now - @alive_at < 1.0
+    @alive_at = now
+    File.open(DIR + "/alive.txt", "wb") { |f| f.write(now.to_i.to_s) }
+  rescue
+  end
+end
+
+module Graphics
+  class << self
+    if method_defined?(:update) && !method_defined?(:__dsalive_update)
+      alias __dsalive_update update
+      def update(*args)
+        __dsalive_update(*args)
+        DualScreenExport.heartbeat
+      end
+    end
+  end
+end
+
 # Signal "Fire Ash is starting" right away (the companion auto-start waits for this).
 # Also remove data from the previous session so the companion doesn't show a
 # stale team/badges on the title screen, and drop unprocessed cheat commands.

@@ -19,7 +19,7 @@ The game runs on the top screen; the companion app lives on the bottom screen an
 | Team | Party with HP, status and held items. Tap a Pokémon for moves (type, power, accuracy, PP), ability, nature, stats and EXP. |
 | Bag | All items per pocket. |
 | Badges | Your badge case plus 8 badge slots per region, and the gym leaders / Elite Four from the walkthrough with their teams. |
-| Guide | The walkthrough shipped with the game (`Helpful Notes`), jumps to your current location. Trainer teams, wild Pokémon and shops are rendered as cards with icons. Search, chapter index, other notes (routes, locations, evolutions, …). |
+| Guide | The walkthrough shipped with the game (`Helpful Notes`), jumps to your current location. Trainer teams, wild Pokémon and shops are rendered as cards with icons; items in the text get their icon and Pokémon show whether you caught them. Chapter progress ("mark done"), index per region, search, text size, and the other notes (routes, locations, evolutions, …). |
 | Cheats | Money, heal party, raise party level, give any item, add any Pokémon, force the next wild Pokémon (and shiny), repel, walk through walls, game speed (1×–5×). |
 | ✎ PokeEditor | From the Team tab: species, nickname, level, nature, ability (incl. hidden), held item, gender, shiny, 4 moves (learnable or any), IVs, EVs and happiness. |
 
@@ -71,16 +71,17 @@ Default game folder: `/storage/emulated/0/JoiPlay/Pokemon Fire Ash 3.7` — if y
 
 On a dual-screen device the app moves itself to the second screen.
 
-### 3. (Optional) Auto-start with the game
+### 3. Show it automatically on the second screen (recommended)
 
-The app contains an accessibility service that only watches for the JoiPlay RPG Maker runtime coming to the foreground (it does not read screen content). When Fire Ash boots, the companion opens on the bottom screen automatically.
+The app contains an accessibility service that only looks at *which app* is in front on the main screen (it never reads screen content). While Fire Ash is in front, the companion is shown on the second screen; when you quit the game, press Home or switch apps, it disappears, and it comes back when you return.
+
+It is shown as an overlay window rather than a normal app, so the **game keeps the controller focus** (no need to tap the top screen first, no focus border on the bottom screen). Fire Ash is recognised by a heartbeat file the in-game plugin refreshes every second, so other JoiPlay games are left alone.
 
 Enable it under *Settings → Accessibility → Fire Ash Companion auto-start*, or via adb (keep any services you already have in that list):
 
 ```bash
 adb shell settings put secure enabled_accessibility_services be.vanhulle.fireashcompanion/.GameWatcherService
 ```
-
 ## Building the APK
 
 No Gradle needed — JDK 17, Python 3 (`py`) and an Android SDK with `build-tools;34.0.0` and `platforms;android-34`:

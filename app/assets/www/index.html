@@ -239,6 +239,72 @@
   .popt .n small { color: var(--muted); display: block; font-size: 11px; }
   .popt.cur { border-color: var(--accent); }
 
+  /* ===================== Visual refresh ===================== */
+  body { background: radial-gradient(900px 420px at 50% -180px, #2c2448 0%, var(--bg) 65%) fixed; }
+  #app { background: transparent; }
+  header { background: linear-gradient(135deg, #2d2547 0%, #1f1b30 70%); border-bottom: 1px solid rgba(255,255,255,.06);
+    box-shadow: 0 2px 10px rgba(0,0,0,.25); position: relative; z-index: 2; }
+  body.day header { background: linear-gradient(135deg, #4a3426 0%, #2a2133 70%); }
+  header .loc .name { font-size: 18px; letter-spacing: .01em; }
+  header .loc .sub b { color: var(--text); font-weight: 600; }
+  .view.active { animation: viewin .18s ease-out; }
+  @keyframes viewin { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  nav { background: rgba(26, 23, 38, .96); border-top: 1px solid rgba(255,255,255,.06); padding: 4px 4px 5px; gap: 2px;
+    box-shadow: 0 -2px 10px rgba(0,0,0,.25); position: relative; z-index: 2; }
+  nav button { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 5px 0 4px; border: 0;
+    border-radius: 12px; font-size: 11.5px; letter-spacing: .01em; transition: background .15s, color .15s; }
+  nav button svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  nav button.active { color: var(--accent2); background: rgba(255,122,61,.13); border: 0; }
+  nav button.battle { color: var(--bad); }
+  nav button.battle.active { background: rgba(255,92,108,.15); color: var(--bad); }
+  nav button.gear { flex: 0 0 52px; }
+  nav button.gear span { display: none; }
+
+  .mon { border-radius: 13px; background: linear-gradient(180deg, #25213a, #1e1b2e); border-color: rgba(255,255,255,.06);
+    box-shadow: 0 2px 0 rgba(0,0,0,.22); padding: 4px 10px 4px 4px; min-height: 58px; }
+  .ibg { width: 50px; height: 50px; flex: none; border-radius: 50%; display: grid; place-items: center;
+    background: radial-gradient(circle at 50% 60%, color-mix(in srgb, var(--tc, #6b6680) 45%, transparent) 0%, transparent 70%); }
+  .mon .nm { font-size: 14.5px; }
+  .cbar { height: 4px; background: rgba(255,255,255,.07); border-radius: 3px; overflow: hidden; margin-top: 5px; max-width: 140px; }
+  .cbar i { display: block; height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+  h3 .mi { font-size: 14px; filter: saturate(1.2); }
+  h3 { color: #b7afcc; }
+
+  .pk { border-radius: 14px; background: linear-gradient(180deg, #25213a, #1e1b2e); border-color: rgba(255,255,255,.06); box-shadow: 0 2px 0 rgba(0,0,0,.22); }
+  .pk .types { display: flex; gap: 4px; margin-top: 3px; }
+  .pk .types .tp { font-size: 9px; padding: 1px 5px; }
+  .hp i { background-image: linear-gradient(180deg, rgba(255,255,255,.25), transparent); }
+  .pk .itm { display: flex; align-items: center; gap: 4px; color: var(--muted); font-size: 12px; margin-top: 2px; }
+  .pk .itm img { width: 20px; height: 20px; image-rendering: pixelated; }
+  .card, .detail, .foe, .breg { background: linear-gradient(180deg, #25213a, #1e1b2e); border-color: rgba(255,255,255,.06); border-radius: 14px; }
+
+  /* Guide 2.0 */
+  #v-guide { --gfs: 14px; padding-bottom: 0; }
+  .guidebar .fs { display: flex; gap: 4px; }
+  .guidebar .fs button { width: 38px; }
+  .gp { font-size: var(--gfs); }
+  .ghead { background: linear-gradient(135deg, rgba(255,122,61,.18), rgba(255,179,71,.06) 60%, transparent), #221e35;
+    border: 1px solid rgba(255,179,71,.25); border-radius: 14px; padding: 10px 14px; margin: 2px 0 12px; display: flex; align-items: center; gap: 10px; }
+  .ghead .gt { flex: 1; min-width: 0; }
+  .ghead h2 { margin: 0; font-size: 19px; color: var(--accent2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ghead .gsub { color: var(--muted); font-size: 11.5px; margin-top: 2px; text-transform: uppercase; letter-spacing: .05em; }
+  .ghead .here { color: #1a1426; background: var(--good); border-radius: 999px; padding: 1px 8px; font-size: 10px; font-weight: 800; margin-left: 6px; letter-spacing: .04em; }
+  .done-btn { border-radius: 999px; padding: 6px 12px; font-size: 12px; font-weight: 700; background: var(--panel2); border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+  .done-btn.on { background: var(--good); color: #10261a; border-color: var(--good); }
+  .gi { white-space: nowrap; color: #ffd9a3; font-weight: 600; }
+  .gi img { width: 22px; height: 22px; vertical-align: -6px; image-rendering: pixelated; margin-right: 1px; }
+  .gm { white-space: nowrap; color: #e9e3f7; font-weight: 700; }
+  .gm .ball, .gm .seen { width: 9px; height: 9px; margin-right: 3px; vertical-align: 0; }
+  .gnav { position: sticky; bottom: 0; margin: 10px -12px 0; padding: 8px 12px 10px; background: linear-gradient(180deg, rgba(21,19,31,0), var(--bg) 35%); }
+  .gnav button { font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 49%; }
+  details.ggen { background: var(--panel); border: 1px solid rgba(255,255,255,.06); border-radius: 12px; margin-bottom: 6px; padding: 4px 10px 8px; }
+  details.ggen summary { cursor: pointer; padding: 6px 0; font-weight: 700; display: flex; gap: 8px; align-items: center; }
+  details.ggen summary .cnt { color: var(--muted); font-weight: 500; font-size: 12px; margin-left: auto; }
+  .gindex button.done { opacity: .55; }
+  .gindex button.done::before { content: '✓ '; color: var(--good); font-weight: 800; }
+  .gindex button.cur { border-color: var(--accent2); color: var(--accent2); font-weight: 700; }
+
   .settings label { display: flex; align-items: center; gap: 10px; background: var(--panel); border: 1px solid var(--line);
     border-radius: var(--radius); padding: 12px; margin-bottom: 8px; }
   .settings input[type=checkbox] { width: 22px; height: 22px; accent-color: var(--accent); }
@@ -269,15 +335,15 @@
     <section class="view settings" id="v-set"></section>
   </main>
   <nav>
-    <button data-v="battle" class="battle" style="display:none">⚔ Battle</button>
-    <button data-v="route" class="active">Route</button>
-    <button data-v="map">Map</button>
-    <button data-v="team">Team</button>
-    <button data-v="bag">Bag</button>
-    <button data-v="badges">Badges</button>
-    <button data-v="guide">Guide</button>
-    <button data-v="cheats">Cheats</button>
-    <button data-v="set" style="flex:0 0 44px">⚙</button>
+    <button data-v="battle" class="battle" style="display:none"><svg viewBox="0 0 24 24"><path d="M14.5 17.5 3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2M9.5 14.5 3 21M5 14l5 5"/></svg><span>Battle</span></button>
+    <button data-v="route" class="active"><svg viewBox="0 0 24 24"><path d="M7 20h10M10 20c5.5-2.5.8-6.4 3-10M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8zM14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></svg><span>Route</span></button>
+    <button data-v="map"><svg viewBox="0 0 24 24"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></svg><span>Map</span></button>
+    <button data-v="team"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 1 0 0-18zM3 12h6M15 12h6M12 9.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 1 0 0-5z"/></svg><span>Team</span></button>
+    <button data-v="bag"><svg viewBox="0 0 24 24"><path d="M5 10a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v10H5zM9 6V4h6v2M5 14h14M10 14v2h4v-2"/></svg><span>Bag</span></button>
+    <button data-v="badges"><svg viewBox="0 0 24 24"><path d="M7 3l3 6M17 3l-3 6M12 9a6 6 0 1 0 0 12 6 6 0 1 0 0-12zM12 12.5l1 2 2.2.3-1.6 1.5.4 2.2-2-1-2 1 .4-2.2-1.6-1.5 2.2-.3z"/></svg><span>Badges</span></button>
+    <button data-v="guide"><svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 21V5M19 19v2H6M8 7h7M8 11h5"/></svg><span>Guide</span></button>
+    <button data-v="cheats"><svg viewBox="0 0 24 24"><path d="M4 20 15 9M13 7l4 4M18 2v3M16.5 3.5h3M20.5 8v2M19.5 9h2M9 2v2M8 3h2"/></svg><span>Cheats</span></button>
+    <button data-v="set" class="gear"><svg viewBox="0 0 24 24"><path d="M12 9a3 3 0 1 0 0 6 3 3 0 1 0 0-6zM12 2v3M12 19v3M4.9 4.9 7 7M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><span>Settings</span></button>
   </nav>
 </div>
 
@@ -432,11 +498,14 @@ function monCard(row, opts = {}) {
   const hidden = st === 'unseen' && !spoilers;
   const name = hidden ? '???' : esc(sp.name) + (sp.fname ? ' <span style="color:var(--muted);font-weight:400">(' + esc(sp.fname) + ')</span>' : '');
   const lv = row.min === row.max ? 'Lv ' + row.min : 'Lv ' + row.min + '–' + row.max;
+  const tc = hidden ? '#6b6680' : (TYPE_COLORS[(sp.types || [])[0]] || '#6b6680');
   return `<div class="mon${opts.dim ? ' dim' : ''}">
-    <div class="icon${hidden ? ' sil' : ''}" style="background-image:url('${img(sp.icon)}')"></div>
-    <div class="info"><div class="nm">${dexMark(st)}${name}</div><div class="meta">${lv}</div></div>
+    <div class="ibg" style="--tc:${tc}"><div class="icon${hidden ? ' sil' : ''}" style="background-image:url('${img(sp.icon)}')"></div></div>
+    <div class="info"><div class="nm">${dexMark(st)}${name}</div><div class="meta">${lv}</div>
+      <div class="cbar"><i style="width:${Math.max(4, Math.min(100, row.chance))}%"></i></div></div>
     <div class="pct">${row.chance}%</div></div>`;
 }
+const METHOD_ICON = { Land: '🌿', Cave: '🪨', Water: '🌊', OldRod: '🎣', GoodRod: '🎣', SuperRod: '🎣', RockSmash: '⛏️', HeadbuttLow: '🌳', HeadbuttHigh: '🌳', BugContest: '🐛' };
 function encounterBlocks(types, active) {
   const keys = Object.keys(types).sort(typeSort);
   const activeSet = new Set(active || []);
@@ -444,7 +513,7 @@ function encounterBlocks(types, active) {
   return keys.map(k => {
     const isActive = activeSet.has(k);
     const dim = activeSet.size && activeBases.has(splitType(k)[0]) && !isActive;
-    return `<h3>${esc(typeLabel(k))}${isActive ? '<span class="now">NOW</span>' : ''}</h3>
+    return `<h3><span class="mi">${METHOD_ICON[splitType(k)[0]] || '•'}</span>${esc(typeLabel(k))}${isActive ? '<span class="now">NOW</span>' : ''}</h3>
       <div class="grid">${types[k].map(r => monCard(r, { dim })).join('')}</div>`;
   }).join('');
 }
@@ -475,8 +544,9 @@ function renderHeader() {
     return;
   }
   n.textContent = STATE.map.name;
+  document.body.classList.toggle('day', !STATE.night);
   const reg = STATE.map.pos && STATIC?.regions?.[STATE.map.pos.region];
-  s.textContent = [reg?.name, STATE.player.badges + ' badges', '₽' + STATE.player.money.toLocaleString('en-US')].filter(Boolean).join(' · ');
+  s.innerHTML = [reg?.name ? '📍 <b>' + esc(reg.name) + '</b>' : '', '🎖 ' + STATE.player.badges, '₽ ' + STATE.player.money.toLocaleString('en-US')].filter(Boolean).join('&nbsp;&nbsp;·&nbsp;&nbsp;');
   document.getElementById('chiptime').textContent = STATE.night ? '☾ night' : '☀ day';
   document.getElementById('chipdex').textContent = '● ' + STATE.owned.length + ' caught · ' + STATE.seen.length + ' seen';
 }
@@ -585,11 +655,15 @@ function renderTeam() {
     if (p.egg) return `<div class="pk"><div class="icon s64" style="background-image:url('${img(p.icon)}')"></div><div class="info"><div class="nm">Egg</div></div></div>`;
     const f = p.totalhp ? p.hp / p.totalhp : 0, col = f > .5 ? 'var(--good)' : f > .2 ? 'var(--warn)' : 'var(--bad)';
     const st = STATUS[p.status] ? `<span class="st" style="background:${STATUS[p.status][1]}">${STATUS[p.status][0]}</span>` : (p.hp === 0 ? '<span class="st" style="background:#555">FNT</span>' : '');
-    return `<div class="pk${selMon === i ? ' sel' : ''}" data-i="${i}"><div class="icon s64" style="background-image:url('${img(p.icon)}')"></div>
+    const itm = p.item ? (ITEMS_BY_NAME[norm(p.item)] || {}) : null;
+    const tc = TYPE_COLORS[(p.types || [])[0]] || '#6b6680';
+    return `<div class="pk${selMon === i ? ' sel' : ''}" data-i="${i}">
+      <div class="ibg" style="--tc:${tc};width:68px;height:68px"><div class="icon s64" style="background-image:url('${img(p.icon)}')"></div></div>
       <div class="info"><div class="nm">${p.shiny ? '<b class="shiny">★</b>' : ''}${esc(p.name)} <span>Lv ${p.level}</span></div>
-      <div class="hp"><i style="width:${Math.round(f * 100)}%;background:${col}"></i></div>
-      <div class="row"><span>${p.hp}/${p.totalhp} HP</span>${st}</div>
-      ${p.item ? `<div class="row"><span>⧫ ${esc(p.item)}</span></div>` : ''}</div></div>`;
+      <div class="types">${(p.types || []).map(typeBadge).join('')}${st}</div>
+      <div class="hp"><i style="width:${Math.round(f * 100)}%;background-color:${col}"></i></div>
+      <div class="row"><span>${p.hp}/${p.totalhp} HP</span></div>
+      ${p.item ? `<div class="itm">${itm.icon ? `<img src="${img(itm.icon)}" onerror="this.remove()">` : '⧫'}<span>${esc(p.item)}</span></div>` : ''}</div></div>`;
   }).join('') + '</div>' + (selMon !== null && STATE.party[selMon] ? monDetail(STATE.party[selMon], selMon) : '<div class="sub2" style="margin-top:10px">Tap a Pokémon for moves, ability and stats.</div>');
   el.querySelectorAll('.pk[data-i]').forEach(c => c.onclick = () => {
     const i = Number(c.dataset.i); selMon = selMon === i ? null : i; renderTeam();
@@ -756,27 +830,77 @@ function richSection(text, q) {
       out += `<div class="gmart"><div class="h">Shop</div>${rows.join('')}</div>`;
       i = k; continue;
     }
-    // paragraph
-    let p = hl(line, q).replace(/\b(TM\d+|HM\d+|TR\d+)(\s*\([^)]*\))?/g, '<b class="tm">$1$2</b>');
-    out += `<p class="gp">${p}</p>`;
+    // paragraph (items get their icon, Pokémon are highlighted with caught/seen marker, TMs in orange)
+    out += `<p class="gp">${q ? hl(line, q) : enrich(line)}</p>`;
     i++;
   }
   flushTrainers();
   return out;
 }
+
+// One regex over all item and Pokémon names (longest first), built once the editor data is loaded.
+let ENRICH_RE = null, ENRICH_FOR = null;
+const reEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+function enrichRegex() {
+  if (ENRICH_FOR === EDITOR && ENRICH_RE) return ENRICH_RE;
+  ENRICH_FOR = EDITOR;
+  const names = new Set();
+  if (EDITOR) {
+    for (const s of EDITOR.species) if (s.form === 0 && s.name.length >= 3) names.add(s.name);
+    for (const it of EDITOR.items) if (it.name.length >= 4 && /^[A-Z]/.test(it.name) && !/^(TM|HM|TR)\d/.test(it.name)) names.add(it.name);
+  }
+  const alt = [...names].sort((a, b) => b.length - a.length).map(reEsc).join('|');
+  ENRICH_RE = new RegExp('\\b(TM\\d+|HM\\d+|TR\\d+)(\\s*\\([^)]*\\))?' + (alt ? '|(?<![\\w\'])(' + alt + ')(?![\\w])' : ''), 'g');
+  return ENRICH_RE;
+}
+function enrich(raw) {
+  const re = enrichRegex();
+  let out = '', last = 0;
+  for (const m of raw.matchAll(re)) {
+    out += esc(raw.slice(last, m.index));
+    last = m.index + m[0].length;
+    if (m[1]) { out += `<b class="tm">${esc(m[1] + (m[2] || ''))}</b>`; continue; }
+    const name = m[3], sp = SPECIES_BY_NAME[norm(name)];
+    if (sp && sp.name === name) { out += `<span class="gm">${dexMark(dexState(sp.base))}${esc(name)}</span>`; continue; }
+    const it = ITEMS_BY_NAME[norm(name)];
+    if (it) { out += `<span class="gi">${it.icon ? `<img src="${img(it.icon)}" onerror="this.remove()">` : ''}${esc(name)}</span>`; continue; }
+    out += esc(m[0]);
+  }
+  return out + esc(raw.slice(last));
+}
+
+// chapter progress (stored per guide document)
+const doneKey = () => 'guideDone' + guideDoc;
+function doneSet() { try { return new Set(JSON.parse(localStorage.getItem(doneKey()) || '[]')); } catch (e) { return new Set(); } }
+function toggleDone(title) { const s = doneSet(); s.has(title) ? s.delete(title) : s.add(title); localStorage.setItem(doneKey(), JSON.stringify([...s])); }
+
 function sectionHtml(s, secs, q) {
-  const prev = secs[s.i - 1], next = secs[s.i + 1];
-  return `<div class="gsec"><div class="gtitle"><h2>${esc(s.title)}</h2><span>${esc(s.gen)}</span></div>${richSection(s.text, q)}
-    <div class="gnav">${prev ? `<button class="btn" data-s="${prev.i}">‹ ${esc(prev.title)}</button>` : '<span></span>'}${next ? `<button class="btn" data-s="${next.i}">${esc(next.title)} ›</button>` : ''}</div></div>`;
+  const prev = secs.slice(0, s.i).reverse().find(x => !x.isGen), next = secs.slice(s.i + 1).find(x => !x.isGen);
+  const inGen = secs.filter(x => !x.isGen && x.gen === s.gen), pos = inGen.indexOf(s) + 1;
+  const here = currentPlaceNames().includes(s.key), done = doneSet().has(s.title);
+  return `<div class="gsec"><div class="ghead"><div class="gt"><h2>${esc(s.title)}</h2>
+      <div class="gsub">${esc(s.gen || 'General')}${pos ? ' · chapter ' + pos + ' / ' + inGen.length : ''}${here ? '<span class="here">YOU ARE HERE</span>' : ''}</div></div>
+      <button class="done-btn${done ? ' on' : ''}" data-done="${esc(s.title)}">${done ? '✓ Done' : 'Mark done'}</button></div>
+    ${richSection(s.text, q)}
+    <div class="gnav">${prev ? `<button class="btn" data-s="${prev.i}">‹ ${esc(prev.title)}</button>` : '<span></span>'}${next ? `<button class="btn primary" data-s="${next.i}">${esc(next.title)} ›</button>` : ''}</div></div>`;
 }
 async function renderGuide() {
   const el = document.getElementById('v-guide');
   if (!el.querySelector('.guidebar')) {
-    el.innerHTML = `<div class="guidebar"><select id="gdoc">${GUIDE_DOCS.map((d, i) => `<option value="${i}">${esc(d[0])}</option>`).join('')}</select>
-      <input id="gq" type="search" placeholder="Search the guide…"><button class="btn" id="ghere" title="Current location">⌖</button><button class="btn" id="gidx">☰</button></div><div id="gbody"></div>`;
+    el.innerHTML = `<div class="guidebar"><button class="btn" id="gdoc" style="flex:0 0 30%;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(GUIDE_DOCS[guideDoc][0])} ▾</button>
+      <input id="gq" type="search" placeholder="Search the guide…"><button class="btn" id="ghere" title="Current location">⌖</button><button class="btn" id="gidx">☰</button>
+      <div class="fs"><button class="btn" data-fs="-1">A−</button><button class="btn" data-fs="1">A+</button></div></div><div id="gbody"></div>`;
     const sel = el.querySelector('#gdoc'), q = el.querySelector('#gq');
-    sel.value = guideDoc;
-    sel.onchange = () => { guideDoc = Number(sel.value); localStorage.setItem('guideDoc', guideDoc); guideOpen = null; guideAuto = true; renderGuide(); };
+    sel.onclick = () => openPicker({ title: 'guides', current: String(guideDoc),
+      items: GUIDE_DOCS.map((d, i) => ({ id: String(i), label: d[0], sub: d[1].split('/').pop() })),
+      onPick: o => { guideDoc = Number(o.id); localStorage.setItem('guideDoc', guideDoc); sel.textContent = GUIDE_DOCS[guideDoc][0] + ' ▾';
+        guideOpen = null; guideAuto = true; renderGuide(); } });
+    const applyFs = () => el.style.setProperty('--gfs', (Number(localStorage.getItem('guideFs')) || 14) + 'px');
+    applyFs();
+    el.querySelectorAll('[data-fs]').forEach(b => b.onclick = () => {
+      const v = Math.max(12, Math.min(20, (Number(localStorage.getItem('guideFs')) || 14) + Number(b.dataset.fs)));
+      localStorage.setItem('guideFs', v); applyFs();
+    });
     let tmr; q.oninput = () => { clearTimeout(tmr); tmr = setTimeout(() => { guideQuery = q.value.trim(); guideOpen = null; renderGuide(); }, 250); };
     el.querySelector('#ghere').onclick = () => { guideOpen = null; guideAuto = true; guideQuery = ''; q.value = ''; renderGuide(); el.scrollTop = 0; };
     el.querySelector('#gidx').onclick = () => { guideOpen = null; guideAuto = false; guideQuery = ''; q.value = ''; renderGuide(); el.scrollTop = 0; };
@@ -806,18 +930,28 @@ async function renderGuide() {
       html = (guideOpen === null && show.length > 1 ? `<div class="sub2">${show.length} parts for ${esc(STATE?.map?.name || '')}</div>` : '')
         + show.map(s => sectionHtml(s, secs, '')).join('<hr style="border:0;border-top:1px solid var(--line);margin:14px 0">');
     } else {
-      let lastGen = null;
-      html = `<div class="sub2">${guideAuto ? 'No chapter found for your current location. ' : ''}Pick a chapter:</div><div class="gindex">` + secs.map(s => {
-        let g = '';
-        if (s.gen !== lastGen) { lastGen = s.gen; g = `<div class="gen">${esc(s.gen || 'General')}</div>`; }
-        return s.isGen ? g : g + `<button data-s="${s.i}">${esc(s.title)}</button>`;
-      }).join('') + '</div>';
+      // chapter index grouped per generation/region, with progress and the current location highlighted
+      const done = doneSet(), here = currentPlaceNames();
+      const gens = [];
+      for (const s of secs) {
+        if (s.isGen) continue;
+        let g = gens.find(x => x.gen === s.gen);
+        if (!g) gens.push(g = { gen: s.gen, list: [] });
+        g.list.push(s);
+      }
+      const curGen = gens.find(g => g.list.some(s => here.includes(s.key)))?.gen;
+      html = `<div class="sub2">${guideAuto ? 'No chapter found for your current location. ' : ''}Pick a chapter:</div>` + gens.map(g => {
+        const d = g.list.filter(s => done.has(s.title)).length;
+        return `<details class="ggen"${g.gen === curGen || gens.length === 1 ? ' open' : ''}><summary>${esc(g.gen || 'General')}<span class="cnt">${d}/${g.list.length} done</span></summary>
+          <div class="gindex">${g.list.map(s => `<button data-s="${s.i}" class="${done.has(s.title) ? 'done' : ''}${here.includes(s.key) ? ' cur' : ''}">${esc(s.title)}</button>`).join('')}</div></details>`;
+      }).join('');
     }
   }
   body.innerHTML = html;
   body.querySelectorAll('[data-s]').forEach(b => b.onclick = () => {
     guideOpen = Number(b.dataset.s); guideQuery = ''; el.querySelector('#gq').value = ''; renderGuide(); el.scrollTop = 0;
   });
+  body.querySelectorAll('[data-done]').forEach(b => b.onclick = () => { toggleDone(b.dataset.done); renderGuide(); });
 }
 
 /* ---------------- Badges ---------------- */
@@ -936,7 +1070,8 @@ document.getElementById('ed-apply').onclick = () => {
   for (const k of Object.keys(ED.f)) if (JSON.stringify(ED.f[k]) !== JSON.stringify(ED.start[k])) changed[k] = ED.f[k];
   if (!Object.keys(changed).length) { toast('Nothing changed'); return; }
   const evTotal = ED.f.ev.reduce((a, b) => a + b, 0);
-  if (evTotal > 510 && !confirm('EV total is ' + evTotal + ' (normal max 510). Apply anyway?')) return;
+  // no native dialogs in the overlay: second tap on Apply confirms
+  if (evTotal > 510 && !ED.evOk) { ED.evOk = true; toast('EV total ' + evTotal + ' is above 510 – tap Apply again to confirm', false); return; }
   send({ op: 'pkmn_edit', slot: ED.slot, fields: changed });
   closeEditor();
 };
@@ -958,11 +1093,13 @@ function renderEditor() {
       </div></div>
     <div class="ed-grid">
       <div class="field"><label>Level</label><input id="ed-level" type="number" min="1" max="100" value="${f.level}"></div>
-      <div class="field"><label>Nature</label><select id="ed-nature">${EDITOR.natures.map(n => `<option value="${n.id}" ${n.id === f.nature ? 'selected' : ''}>${esc(natLabel(n))}</option>`).join('')}</select></div>
+      <div class="field"><label>Nature</label><button class="pickbtn" id="ed-nature"><span>${nat ? esc(natLabel(nat)) : '<span class="ph">–</span>'}</span>▾</button></div>
       <div class="field"><label>Ability</label>${speciesChanged ? '<div class="sub2" style="margin:6px 0">Apply the new species first, then pick its ability.</div>'
-        : `<select id="ed-ability">${(p.abilities || []).map(a => `<option value="${a.index}" ${a.index === f.ability_index ? 'selected' : ''}>${esc(a.name)}${a.index >= 2 ? ' (hidden)' : ''}</option>`).join('')}</select>`}</div>
+        : (() => { const a = (p.abilities || []).find(x => x.index === f.ability_index);
+            return `<button class="pickbtn" id="ed-ability"><span>${a ? esc(a.name) + (a.index >= 2 ? ' (hidden)' : '') : '<span class="ph">–</span>'}</span>▾</button>`; })()}</div>
       <div class="field"><label>Held item</label><button class="pickbtn" id="ed-item">${it ? `<img src="${img(it.icon)}" onerror="this.style.visibility='hidden'"><span>${esc(it.name)}</span>` : '<span class="ph">None</span>'}</button></div>
-      <div class="field"><label>Gender</label><select id="ed-gender"><option value="0" ${f.gender === 0 ? 'selected' : ''}>♂ Male</option><option value="1" ${f.gender === 1 ? 'selected' : ''}>♀ Female</option>${f.gender === 2 ? '<option value="2" selected>Genderless</option>' : ''}</select></div>
+      <div class="field"><label>Gender</label>${f.gender === 2 ? '<div class="sub2" style="margin:8px 0">Genderless</div>'
+        : `<div class="pills" style="margin:0"><button data-gender="0" class="${f.gender === 0 ? 'on' : ''}" style="flex:1;padding:7px 0">♂ Male</button><button data-gender="1" class="${f.gender === 1 ? 'on' : ''}" style="flex:1;padding:7px 0">♀ Female</button></div>`}</div>
       <div class="field"><label>Shiny</label><label class="toggle" style="text-transform:none;letter-spacing:0;color:var(--text);font-size:13px;margin-top:8px"><input type="checkbox" id="ed-shiny" ${f.shiny ? 'checked' : ''}> ★ Shiny</label></div>
     </div>
     <div class="sect">Moves<span class="sp"></span>${speciesChanged ? '' : '<span style="text-transform:none;letter-spacing:0">“Learnable” = level-up, tutor & egg moves</span>'}</div>
@@ -977,9 +1114,13 @@ function renderEditor() {
   const $ = id => document.getElementById(id);
   $('ed-name').oninput = e => f.name = e.target.value;
   $('ed-level').onchange = e => f.level = Math.max(1, Math.min(100, Number(e.target.value) || 1));
-  $('ed-nature').onchange = e => f.nature = e.target.value;
-  if ($('ed-ability')) $('ed-ability').onchange = e => f.ability_index = Number(e.target.value);
-  $('ed-gender').onchange = e => f.gender = Number(e.target.value);
+  $('ed-nature').onclick = () => openPicker({ title: 'natures', current: f.nature,
+    items: EDITOR.natures.map(n => ({ id: n.id, label: n.name, sub: n.up && n.up !== n.down ? `+${STAT_NAMES[STAT_IDS.indexOf(n.up)]}  −${STAT_NAMES[STAT_IDS.indexOf(n.down)]}` : 'neutral' })),
+    onPick: o => { f.nature = o.id; renderEditor(); } });
+  if ($('ed-ability')) $('ed-ability').onclick = () => openPicker({ title: 'abilities', current: String(f.ability_index),
+    items: (p.abilities || []).map(a => ({ id: String(a.index), label: a.name, sub: a.index >= 2 ? 'hidden ability' : 'ability ' + (a.index + 1) })),
+    onPick: o => { f.ability_index = Number(o.id); renderEditor(); } });
+  document.querySelectorAll('[data-gender]').forEach(b => b.onclick = () => { f.gender = Number(b.dataset.gender); renderEditor(); });
   $('ed-shiny').onchange = e => { f.shiny = e.target.checked; };
   $('ed-species').onclick = () => openPicker({ title: 'species', items: speciesOptions(), current: f.species, onPick: o => { f.species = o.id; renderEditor(); } });
   $('ed-item').onclick = () => openPicker({ title: 'items', items: [{ id: '', label: 'None' }, ...itemOptions()], current: f.item, onPick: o => { f.item = o.id; renderEditor(); } });
@@ -1121,6 +1262,18 @@ function setView(v) {
   render();
 }
 document.querySelectorAll('nav button').forEach(b => b.onclick = () => setView(b.dataset.v));
+
+// The app never takes input focus (so controller input stays with the game on the
+// top screen). Only while you type in a text field do we ask for focus/keyboard.
+const isTextField = el => el && el.matches && el.matches('input[type=search], input[type=text], input[type=number], input:not([type]), textarea');
+let focusWanted = false;
+function wantFocus(on) {
+  if (on === focusWanted || !window.Native || !Native.setFocusable) return;
+  focusWanted = on; Native.setFocusable(on);
+}
+document.addEventListener('pointerdown', e => { if (isTextField(e.target)) wantFocus(true); }, true);
+document.addEventListener('focusout', () => setTimeout(() => { if (!isTextField(document.activeElement)) wantFocus(false); }, 150), true);
+document.addEventListener('keydown', e => { if (e.key === 'Enter' && isTextField(e.target)) e.target.blur(); }, true);
 setView(view);
 poll(); pollStatic(); pollPerf(); pollResult();
 </script>

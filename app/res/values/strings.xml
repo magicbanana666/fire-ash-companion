@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="watcher_desc">Opent Fire Ash Companion automatisch op het onderste scherm wanneer Fire Ash in JoiPlay start. Leest geen scherminhoud.</string>
+    <string name="watcher_desc">Opens Fire Ash Companion on the second screen while Fire Ash is running in JoiPlay, and closes it when you leave the game. Only looks at which app is in the foreground on the main screen; it never reads screen content.</string>
 </resources>
