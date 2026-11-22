@@ -34,12 +34,6 @@ module WideScreen
   rescue
   end
 
-  def dbg(msg)
-    Dir.mkdir("DualScreen") rescue nil
-    File.open("DualScreen/ws_debug.txt", "ab") { |f| f.write("[#{Time.now.strftime('%H:%M:%S')}] #{msg}\n") }
-  rescue
-  end
-
   # The real screen width (Graphics.width is faked to 512 in pillar mode)
   def real_width
     Graphics.respond_to?(:__ws_width) ? Graphics.__ws_width : Graphics.width
@@ -123,7 +117,6 @@ module WideScreen
     @depth += 1
     apply(WIDE_W)
     @pillar = true
-    dbg("pillar on: real=#{real_width} faked=#{Graphics.width} offset=#{offset} enabled=#{enabled?}")
     yield
   ensure
     @pillar = false
@@ -136,7 +129,6 @@ module WideScreen
   # blurred and darkened, behind the centred battle.
   def make_fill(src)
     dispose_fill
-    dbg("make_fill: src=#{src ? "#{src.width}x#{src.height}" : 'nil'} real=#{real_width} offset=#{offset}")
     return if !src || src.disposed? || offset <= 0
     suspend do
       off = offset
@@ -179,7 +171,6 @@ module WideScreen
         parts.push(vp, spr, edge)
       end
       @fill = [parts, [big, eb]]
-      dbg("fill created: off=#{off} zoom=#{zoom.round(2)}")
     end
   rescue Exception => e
     raise e if e.is_a?(SystemExit) || e.class.name == "Reset"
@@ -263,7 +254,6 @@ class PokeBattle_Scene
   def pbCreateBackdropSprites
     __ws_pbCreateBackdropSprites
     bg = @sprites["battle_bg"]
-    WideScreen.dbg("backdrop: bg=#{bg ? bg.class : 'nil'} bmp=#{bg && bg.bitmap ? 'yes' : 'no'} pillar=#{WideScreen.pillar?} battle_vp=#{@viewport.rect.x},#{@viewport.rect.width} z=#{@viewport.z}")
     WideScreen.make_fill(bg.bitmap) if bg && bg.bitmap && WideScreen.pillar?
   end
 end
