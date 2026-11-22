@@ -1,0 +1,16 @@
+# Extracted game scripts and patched game data (copyrighted, never commit)
+/src/
+/build/
+*.rxdata
+
+# App build output and signing key
+app/build/
+app/*.apk
+app/*.idsig
+*.keystore
+
+# Runtime output of the plugins when run locally
+DualScreen/
+tools/DualScreen/
+
+__pycache__/
