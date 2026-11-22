@@ -314,14 +314,11 @@ class Scene_Map
 end
 
 # "Next wild Pokémon" cheat: replace the species / make it shiny
-class PokemonEncounters
-  alias __dscheats_choose_wild_pokemon choose_wild_pokemon unless method_defined?(:__dscheats_choose_wild_pokemon)
-  def choose_wild_pokemon(*args)
-    ret = __dscheats_choose_wild_pokemon(*args)
-    sp = DualScreenCheats.force_species
-    ret = [sp, ret[1]] if ret && sp
-    ret
-  end
+DualScreenHooks.register("PokemonEncounters", :choose_wild_pokemon) do |enc, orig, args, blk|
+  ret = enc.send(orig, *args, &blk)
+  sp = DualScreenCheats.force_species
+  ret = [sp, ret[1]] if ret && sp
+  ret
 end
 
 alias __dscheats_pbGenerateWildPokemon pbGenerateWildPokemon unless defined?(__dscheats_pbGenerateWildPokemon)

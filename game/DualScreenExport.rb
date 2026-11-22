@@ -405,20 +405,67 @@ module DualScreenExport
   end
 end
 
-# Battle: export at the start of every round (command phase) and when it ends.
-class PokeBattle_Battle
-  alias __dualscreen_pbCommandPhase pbCommandPhase unless method_defined?(:__dualscreen_pbCommandPhase)
-  def pbCommandPhase
-    DualScreenExport.battle_update(self)
-    __dualscreen_pbCommandPhase
+#===============================================================================
+# Hooks that survive plugins.
+# Essentials loads PluginScripts.rxdata *after* Scripts.rxdata, and plugins
+# (e.g. ZUD, v19.1 Hotfixes) redefine some battle/encounter methods, which
+# would silently remove a normal alias-based hook. Hooks registered here are
+# installed immediately and re-installed after PluginManager.runPlugins.
+#===============================================================================
+module DualScreenHooks
+  @hooks = []        # [class name, method, body]
+  @installed = {}    # [class name, method] => UnboundMethod of our wrapper
+  @n = 0
+
+  # body receives (object, original method name, args, block)
+  def self.register(klass_name, meth, &body)
+    @hooks.push([klass_name, meth, body])
+    install
   end
 
-  alias __dualscreen_pbEndOfBattle pbEndOfBattle unless method_defined?(:__dualscreen_pbEndOfBattle)
-  def pbEndOfBattle
-    ret = __dualscreen_pbEndOfBattle
-    DualScreenExport.force
-    ret
+  def self.install
+    @hooks.each do |klass_name, meth, body|
+      begin
+        klass = Object.const_get(klass_name) rescue next
+        next if !klass.method_defined?(meth) && !klass.private_method_defined?(meth)
+        key = [klass_name, meth]
+        next if @installed[key] && klass.instance_method(meth) == @installed[key]
+        @n += 1
+        orig = :"__dshook_#{meth}_#{@n}"
+        klass.send(:alias_method, orig, meth)
+        klass.send(:define_method, meth) { |*args, &blk| body.call(self, orig, args, blk) }
+        @installed[key] = klass.instance_method(meth)
+      rescue Exception => e
+        raise e if e.is_a?(SystemExit) || e.class.name == "Reset"
+        DualScreenExport.log_error(e)
+      end
+    end
   end
+end
+
+module PluginManager
+  class << self
+    if method_defined?(:runPlugins) && !method_defined?(:__dshook_runPlugins)
+      alias __dshook_runPlugins runPlugins
+      def runPlugins(*args, &blk)
+        ret = __dshook_runPlugins(*args, &blk)
+        DualScreenHooks.install
+        ret
+      end
+    end
+  end
+end
+
+# Battle: export at the start of every round (command phase) and when it ends.
+DualScreenHooks.register("PokeBattle_Battle", :pbCommandPhase) do |battle, orig, args, blk|
+  DualScreenExport.battle_update(battle)
+  battle.send(orig, *args, &blk)
+end
+
+DualScreenHooks.register("PokeBattle_Battle", :pbEndOfBattle) do |battle, orig, args, blk|
+  ret = battle.send(orig, *args, &blk)
+  DualScreenExport.force
+  ret
 end
 
 class Scene_Map
