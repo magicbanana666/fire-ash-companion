@@ -83,7 +83,7 @@ adb shell settings put secure enabled_accessibility_services be.vanhulle.fireash
 
 ## Building the APK
 
-No Gradle needed — JDK 17 and an Android SDK with `build-tools;34.0.0` and `platforms;android-34`:
+No Gradle needed — JDK 17, Python 3 (`py`) and an Android SDK with `build-tools;34.0.0` and `platforms;android-34`:
 
 ```powershell
 ./app/build.ps1 -Sdk C:\path\to\android-sdk -Jdk C:\path\to\jdk-17
