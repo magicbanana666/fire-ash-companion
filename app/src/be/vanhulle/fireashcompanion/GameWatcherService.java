@@ -3,6 +3,7 @@ package be.vanhulle.fireashcompanion;
 import android.accessibilityservice.AccessibilityService;
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.graphics.Point;
 import android.hardware.display.DisplayManager;
 import android.os.Handler;
 import android.os.Looper;
@@ -43,6 +44,47 @@ public class GameWatcherService extends AccessibilityService {
     WebView overlay;
     WindowManager overlayWm;
     WindowManager.LayoutParams overlayLp;
+
+    /**
+     * After the device sleeps and wakes, the overlay could get the main screen's
+     * size (1920 wide) instead of the second screen's, so the page was laid out too
+     * wide and looked zoomed in / cut off. The overlay therefore gets the second
+     * screen's exact size, re-checked on every display change (screen on/off,
+     * rotation); if the view still has the wrong size it is rebuilt.
+     */
+    final DisplayManager.DisplayListener displayListener = new DisplayManager.DisplayListener() {
+        @Override public void onDisplayAdded(int id) { }
+        @Override public void onDisplayRemoved(int id) { scheduleSizeCheck(); }
+        @Override public void onDisplayChanged(int id) { scheduleSizeCheck(); }
+    };
+
+    void scheduleSizeCheck() {
+        handler.removeCallbacks(sizeCheck);
+        handler.postDelayed(sizeCheck, 300);
+    }
+
+    static Point realSize(Display d) {
+        Point p = new Point();
+        d.getRealSize(p);
+        return p;
+    }
+
+    final Runnable sizeCheck = () -> {
+        if (overlay == null) return;
+        Display d = secondDisplay();
+        if (d == null) { hideOverlay(); return; }
+        Point p = realSize(d);
+        if (overlayLp.width != p.x || overlayLp.height != p.y) {
+            overlayLp.width = p.x;
+            overlayLp.height = p.y;
+            try { overlayWm.updateViewLayout(overlay, overlayLp); } catch (Exception ignored) { }
+        }
+        handler.postDelayed(() -> {
+            if (overlay == null) return;
+            int w = overlay.getWidth(), h = overlay.getHeight();
+            if (w > 0 && h > 0 && (w != p.x || h != p.y)) { hideOverlay(); showOverlay(); }
+        }, 500);
+    };
 
     static boolean overlayShown() {
         GameWatcherService s = instance;
@@ -138,9 +180,13 @@ public class GameWatcherService extends AccessibilityService {
                             | WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED
                             | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                     PixelFormat.OPAQUE);
+            Point size = realSize(d);
+            overlayLp.width = size.x;
+            overlayLp.height = size.y;
             overlayLp.setTitle("Fire Ash Companion");
             overlay = CompanionWeb.create(dc, this::setOverlayFocusable);
             overlayWm.addView(overlay, overlayLp);
+            ((DisplayManager) getSystemService(Context.DISPLAY_SERVICE)).registerDisplayListener(displayListener, handler);
         } catch (Exception e) {
             overlay = null;
         }
@@ -148,6 +194,8 @@ public class GameWatcherService extends AccessibilityService {
 
     void hideOverlay() {
         if (overlay == null) return;
+        handler.removeCallbacks(sizeCheck);
+        try { ((DisplayManager) getSystemService(Context.DISPLAY_SERVICE)).unregisterDisplayListener(displayListener); } catch (Exception ignored) { }
         try { overlayWm.removeView(overlay); } catch (Exception ignored) { }
         try { overlay.destroy(); } catch (Exception ignored) { }
         overlay = null;
